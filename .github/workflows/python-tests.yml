@@ -1,19 +1,35 @@
-name: Python Tests
+name: Python Tests  # Название процесса, которое видно в GitHub Actions
 
-# ВОТ ЭТОЙ СТРОЧКИ НЕ ХВАТАЛО:
+# БЛОК "КОГДА ЗАПУСКАТЬ" (Triggers)
+# Мы говорим: запускай этот сценарий при любом Пуше (push)
+# или при создании Пулл-реквеста (pull_request)
 on: [push, pull_request]
 
 jobs:
   test:
+    # БЛОК "ГДЕ ЗАПУСКАТЬ" (Runner)
+    # Используем виртуальную машину на Linux (Ubuntu)
     runs-on: ubuntu-latest
+    
     steps:
+    # Шаг 1: "Checkout"
+    # GitHub клонирует ваш репозиторий на виртуальную машину, чтобы видеть файлы
     - uses: actions/checkout@v3
+
+    # Шаг 2: Настройка Python
+    # Устанавливаем Python версии 3.10
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+
+    # Шаг 3: Установка зависимостей
+    # Скачиваем pytest (библиотеку для тестов)
     - name: Install dependencies
       run: pip install pytest
+
+    # Шаг 4: ЗАПУСК ТЕСТОВ
+    # python -m pytest: запускаем pytest как модуль.
+    # Это позволяет питону видеть папку src/ и правильно делать импорты.
     - name: Run tests
-      # Запускаем через модуль, чтобы Python видел все папки
       run: python -m pytest
