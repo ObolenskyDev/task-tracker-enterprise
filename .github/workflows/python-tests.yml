@@ -1,19 +1,62 @@
-name: Python Tests
+import sys
+import os
+import pytest
 
-# ВОТ ЭТОЙ СТРОЧКИ НЕ ХВАТАЛО:
-on: [push, pull_request]
+# Настраиваю пути, чтобы тесты видели модуль src в соседней папке
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install dependencies
-      run: pip install pytest
-    - name: Run tests
-      # Запускаем через модуль, чтобы Python видел все папки
-      run: python -m pytest
+from src.validator import TaskValidator
+
+class TestTaskValidator:
+    """
+    Мои тесты для класса валидации задач.
+    Проверяю основные сценарии: успешное создание и ошибки ввода.
+    """
+
+    def test_valid_task(self):
+        """
+        Тест 1: Проверяю, что корректная задача (с заголовком и приоритетом) проходит валидацию.
+        """
+        # Инициализирую валидатор
+        validator = TaskValidator()
+        
+        # Подготавливаю правильные данные
+        task = {"title": "Купить продукты", "priority": "high"}
+        
+        # Запускаю проверку
+        is_valid, msg = validator.validate(task)
+        
+        # Ожидаю, что валидация пройдет успешно (True, "OK")
+        assert is_valid is True
+        assert msg == "OK"
+
+    def test_empty_title(self):
+        """
+        Тест 2: Проверяю, что нельзя создать задачу без заголовка.
+        """
+        validator = TaskValidator()
+        
+        # Передаю задачу без поля 'title'
+        task_no_title = {"priority": "low"}
+        
+        is_valid, msg = validator.validate(task_no_title)
+        
+        # Валидатор должен вернуть False и соответствующую ошибку
+        assert is_valid is False
+        assert "Не указан заголовок" in msg
+
+    def test_invalid_priority(self):
+        """
+        Тест 3: Проверяю защиту от некорректных значений приоритета.
+        Допустимые значения: low, medium, high.
+        """
+        validator = TaskValidator()
+        
+        # Пробую передать несуществующий приоритет
+        task_wrong_priority = {"title": "Тест", "priority": "critical"}
+        
+        is_valid, msg = validator.validate(task_wrong_priority)
+        
+        # Ожидаю отказ в валидации
+        assert is_valid is False
+        assert "Неверный приоритет" in msg
