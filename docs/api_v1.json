@@ -1,0 +1,27 @@
+{
+    "service": "Task Tracker API",
+    "version": "1.0.0",
+    "protocol": "REST",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/api/v1/tasks",
+        "summary": "Получение списка задач",
+        "expected_response_code": 200,
+        "response_body_example": [
+          {
+            "id": 101,
+            "title": "Изучить SQL",
+            "status": "in_progress"
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/tasks",
+        "summary": "Создание новой задачи",
+        "body_params": ["title", "user_id", "priority"],
+        "expected_response_code": 201
+      }
+    ]
+  }
