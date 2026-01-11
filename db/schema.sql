@@ -1,7 +1,3 @@
--- Задача: SCRUM-2
--- Автор: [Твое Имя]
--- Описание: Схема базы данных для Task Tracker
-
 CREATE DATABASE IF NOT EXISTS task_tracker;
 USE task_tracker;
 
@@ -23,6 +19,3 @@ CREATE TABLE tasks (
     priority INT DEFAULT 1,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
-
--- Примеры аналитических запросов (для команды):
--- SELECT * FROM tasks WHERE status = 'in_progress';
