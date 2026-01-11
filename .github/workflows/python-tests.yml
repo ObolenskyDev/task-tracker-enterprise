@@ -1,4 +1,8 @@
 name: Python Tests
+
+# ВОТ ЭТОЙ СТРОЧКИ НЕ ХВАТАЛО:
+on: [push, pull_request]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -11,4 +15,5 @@ jobs:
     - name: Install dependencies
       run: pip install pytest
     - name: Run tests
+      # Запускаем через модуль, чтобы Python видел все папки
       run: python -m pytest
