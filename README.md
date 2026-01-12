@@ -13,6 +13,7 @@
 ## 🛠 Технический стек
 * **Core:** Python 3.10 (Business Logic)
 * **Database:** SQL (PostgreSQL/MySQL schema design)
+Схема БД и примеры аналитических запросов находятся в директории /db
 * **Testing:** Pytest (Unit Testing, Positive/Negative scenarios)
 * **DevOps:** GitHub Actions (CI/CD), Git Flow
 * **Frontend:** HTML5, CSS3
