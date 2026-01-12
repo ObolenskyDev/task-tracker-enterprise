@@ -17,7 +17,7 @@ CREATE TABLE tasks (
     description TEXT,                         -- Описание задачи
     status ENUM('new', 'in_progress', 'done') DEFAULT 'new', -- Статус задачи
     priority INT DEFAULT 1,                  -- Приоритет задачи
-    -- NOTE: В реальном Enterprise-проекте мы бы использовали Soft Delete (флаг is_deleted).
+
     -- Здесь используем CASCADE для упрощения очистки тестовых данных.
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE -- Связь с таблицей users (при удалении пользователя удаляются все его задачи)
 );
