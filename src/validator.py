@@ -26,8 +26,13 @@ class TaskValidator:
         valid_priorities = ['low', 'medium', 'high']
         priority = task.get('priority', 'low') # low по умолчанию
         
-        if priority not in valid_priorities:
-            return False, f"Ошибка: Неверный приоритет '{priority}'"
-            
-        # Если все проверки пройдены
-        return True, "OK"
+# ... код проверки приоритета ...
+    if priority not in valid_priorities:
+        return False, f"Ошибка: Неверный приоритет '{priority}'"
+
+    # TODO: Добавить маппинг (конвертацию) приоритетов перед записью в БД:
+    # 'low' -> 1, 'medium' -> 2, 'high' -> 3.
+    # Сейчас база принимает INT, а мы валидируем STR.
+
+    # Если все проверки пройдены
+    return True, "OK"
