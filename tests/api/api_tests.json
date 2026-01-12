@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "8ba6b130-54cd-45d8-b351-094b1ad2aa16",
+		"name": "Enterprise Task Tracker API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "51441146",
+		"_collection_link": "https://nn777666999-2267301.postman.co/workspace/%D0%98%D0%BC%D1%8F-%D0%9F%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F's-Workspace~582011e9-ebbb-4822-8d32-90416149e2cc/collection/51441146-8ba6b130-54cd-45d8-b351-094b1ad2aa16?action=share&source=collection_link&creator=51441146"
+	},
+	"item": [
+		{
+			"name": "https://jsonplaceholder.typicode.com/todos/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверка статуса\r",
+							"pm.test(\"Статус ответа 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Проверка времени ответа (важно для Enterprise)\r",
+							"pm.test(\"Сервер ответил быстрее чем за 500мс\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"// Проверка структуры JSON\r",
+							"pm.test(\"JSON содержит поле userId\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.userId).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/todos/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"todos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://jsonplaceholder.typicode.com/posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1. Проверяем статус код создания\r",
+							"pm.test(\"Задача успешно создана (Status 201)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"// 2. Проверяем, что сервер вернул ID новой задачи\r",
+							"pm.test(\"Ответ содержит ID новой задачи\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"});\r",
+							"\r",
+							"// 3. Проверка времени отклика для SLA (важно для энтерпрайза)\r",
+							"pm.test(\"Время ответа сервера менее 400мс\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Реализовать интеграцию с API\",\r\n  \"description\": \"Настроить эндпоинты для получения списка задач из БД\",\r\n  \"priority\": \"High\",\r\n  \"status\": \"In Progress\",\r\n  \"assigned_to\": \"Obolensky Nikita\",\r\n  \"labels\": [\"backend\", \"api\", \"task-tracker\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/posts",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
