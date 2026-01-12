@@ -10,5 +10,4 @@ GROUP BY u.user_id, u.username
 ORDER BY total_tasks DESC;
 
 -- 2. Запрос на проверку целостности: Найти задачи, у которых некорректно привязан пользователь
--- (Хотя у тебя стоит FOREIGN KEY, это показывает навык поиска аномалий)
 SELECT * FROM tasks WHERE user_id NOT IN (SELECT user_id FROM users);
